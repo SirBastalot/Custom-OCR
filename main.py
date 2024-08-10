@@ -73,6 +73,20 @@ def optXgrid(matrix):
                 cutX[cut] -= offset
                 break
 
+def optYgrid(matrix):
+    hrow = histogram(matrix)[1]
+    lookForEmpty = True
+    lineCount = 0
+    cutY = [0] * 100
+
+    for i in range (height):
+        if lookForEmpty and hrow[i] == 0:
+            lookForEmpty = False
+            cutY[lineCount] = i
+            lineCount += 1
+        elif not lookForEmpty and hrow[i] == 1:
+            lookForEmpty = False
+            lineCount += 1
 
 filter_matrix = filter()
 hcol, hrow = histogram(filter_matrix)
@@ -81,3 +95,40 @@ optXgrid(filter_matrix)
 print("Spalten-Histogramm:", hcol)
 print("Zeilen-Histogramm:", hrow)
 print("Optimierte X-Schnitte:", cutX)
+import matplotlib.pyplot as plt
+
+# Visualisierung des Spalten-Histogramms
+import matplotlib.pyplot as plt
+
+# Visualisierung des Spalten- und Zeilen-Histogramms und der Schnittpunkte
+def visualize_histogram_and_cuts(hcol, hrow, cutX, output_path='output.png'):
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
+
+    # Plot für Spalten-Histogramm
+    ax1.bar(range(len(hcol)), hcol, color='blue', label='Spalten-Histogramm')
+    ax1.set_title("Spalten-Histogramm")
+    ax1.set_xlabel("Spalten")
+    ax1.set_ylabel("Anzahl der Pixel")
+    for cut in cutX:
+        ax1.axvline(x=cut, color='red', linestyle='--', label=f"X-Schnitt bei {cut}")
+    ax1.legend()
+
+    # Plot für Zeilen-Histogramm
+    ax2.bar(range(len(hrow)), hrow, color='green', label='Zeilen-Histogramm')
+    ax2.set_title("Zeilen-Histogramm")
+    ax2.set_xlabel("Zeilen")
+    ax2.set_ylabel("Anzahl der Pixel")
+    ax2.legend()
+
+    plt.tight_layout()
+    plt.savefig(output_path)  # Diagramm als Bild speichern
+    plt.close()  # Schließt das Diagramm, um Speicher freizugeben
+
+# Pfad, wo das Bild gespeichert wird
+output_image_path = "/home/bastian/PycharmProjects/Custom-OCR/histogram_output.png"
+
+# Funktion aufrufen und das Diagramm speichern
+visualize_histogram_and_cuts(hcol, hrow, cutX, output_path=output_image_path)
+
+print(f"Histogramm und Schnitte wurden als Bild gespeichert: {output_image_path}")
+
