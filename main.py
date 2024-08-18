@@ -318,13 +318,7 @@ def insert_route(sektor_id, routen_name, schwierigkeit, routenlaenge, routen_bes
             print("MySQL-Verbindung geschlossen.")
 
 # Beispielaufruf der Funktion
-insert_route(
-    sektor_id=1,
-    routen_name="Klettersteig Alpha",
-    schwierigkeit="6a",
-    routenlaenge=30.5,
-    routen_beschreibung="Eine schöne Route mit schwierigen Passagen."
-)
+
 
 # Erkannten Text ausgeben
 for filename, text in result_texts.items():
